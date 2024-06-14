@@ -1,0 +1,78 @@
+﻿@page "/Knihov"
+@inject IJSRuntime JS
+<PageTitle>Knihovna</PageTitle>
+<h1>Knihovna</h1>
+
+<div class="p-2 border">
+    <label>Název:<input type="text" @bind-value=Polozka.Nazev/></label>
+    <label>Autor:<input type="text" @bind-value=Polozka.Autor /></label>
+    <label>Rok vydání:<input type="number" @bind-value=Polozka.Rok /></label>
+    <label>Žánr:<input type="text" @bind-value=Polozka.Zanr /></label>
+    <label>ISBN:<input type="number" @bind-value=Polozka.ISBN /></label>
+    <label>Celkový počet kusů:<input type="number" @bind-value=Polozka.ISBN /></label>
+
+    @if(JeEditace)
+    {
+        <button @onclick="UkonciEditaci">Ukonči editaci</button>
+    }
+    else
+    {
+        <button @onclick="Pridat">Přidat</button>
+    }
+</div>
+
+<div class=" p-2 border">
+    <div class=" p-2 border">
+        <label><input type="checkbox" @bind-value=JeFiltrace/>Zobrazit filtr</label>
+        @if (JeFiltrace)
+        {
+            <div>
+                ISBN
+                <InputNumber @bind-Value="@FiltrHodnota"/>
+                <button @onclick="FiltrujPolozky">Filtruj</button>
+            </div>
+        }
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Název</th>
+                <th>Autor</th>
+                <th>Rok vydání</th>
+                <th>Žánr</th>
+                <th>ISBN</th>
+                <th>Celkový počet kusů</th>
+                <th>Smazat záznam</th>
+                <th>Edituj záznam</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in JeFiltrace ?PolozkaFiltrList:PolozkaList)
+            {
+                <tr>
+                    <td>@item.Nazev</td>
+                    <td>@item.Autor</td>
+                    <td>@item.Rok</td>
+                    <td>@item.Zanr</td>
+                    <td>@item.ISBN</td>
+                    <td>
+                        <button class="btn btn-success"
+                        @onclick="()=>SmazatZaznam(item)">Smazat</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-warning"
+                        @onclick="()=>EditujZaznam(item)">Editovat;</button>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+
+</div>
+
+@code {
+
+}
